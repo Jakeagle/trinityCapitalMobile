@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/******************************Special Items********************************/
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #362d20;
+  color: white;
+}
+
+.header {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.bankName {
+  margin-top: auto;
+  font-weight: 400;
+  font-size: 80%;
+}
+
+.toolsBtn {
+  font-size: 1.5rem;
+}
+
+.pfp {
+  margin: auto;
+  border: #ae8626;
+  border-style: inset;
+  border-radius: 15%;
+  width: 2rem;
+  height: 2rem;
+  background-color: #61563e;
+}
+
+.pfpName {
+  font-size: 0.5rem;
+  font-weight: 300;
+}
+
+.balanceBlock {
+  text-align: center;
+  margin-top: 6rem;
+  margin-bottom: 4rem;
+}
+.balanceText {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 100;
+  font-size: 1rem;
+}
+
+.totalBalance {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.incomeSpending {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+}
+.isAmount {
+  width: 100%;
+}
+
+.isText {
+  font-size: 1rem;
+}
+
+.accountContainer {
+  /* position: absolute;
+  top: 6rem; */
+  border-radius: 2rem 2rem 0 0;
+  width: 100%;
+  /* height: 45.5rem; */
+  height: 23rem;
+  background-color: #94845f;
+}
+
+.accountCard {
+  border-radius: 2rem;
+  width: 85%;
+  height: 14rem;
+  background-color: #362d20;
+  margin: auto;
+  margin-top: 5rem;
+}
+
+.slideBtn {
+  margin: -0.8rem;
+  margin-top: 5rem;
+}
+
+.accountNumber {
+  margin: auto;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+.bankName {
+  font-weight: 600;
+  font-size: 0.6rem;
+}
