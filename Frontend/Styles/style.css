@@ -84,7 +84,7 @@ body {
   height: 14rem;
   background-color: #362d20;
   margin: auto;
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 .slideBtn {
@@ -100,4 +100,20 @@ body {
 .bankName {
   font-weight: 600;
   font-size: 0.6rem;
+}
+.sectionHeader {
+  margin: auto;
+}
+.symbol {
+  margin-right: 1.5rem;
+  text-align: right;
+}
+
+.accounts {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pullBtn {
+  font-size: 2rem;
 }
