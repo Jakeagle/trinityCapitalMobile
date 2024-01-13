@@ -117,3 +117,25 @@ body {
 .pullBtn {
   font-size: 2rem;
 }
+
+.balanceSection {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.balanceText {
+  margin-left: 2rem;
+}
+
+.balanceDateText {
+  position: relative;
+  right: 3.5rem;
+  font-weight: 400;
+}
+
+.actualBalanceText {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  text-align: left;
+  font-weight: 600;
+}
