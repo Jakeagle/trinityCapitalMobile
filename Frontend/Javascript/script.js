@@ -46,9 +46,9 @@ closeAccountModal.addEventListener('click', function () {
   accountSwitchModal.close();
 });
 
-window.screen.width <= 1300 ? mobileLoginBox.showModal() : loginBox.showModal();
-
 if (mainApp) mainApp.style.display = 'none';
+
+mobileLoginBox.showModal();
 
 /***********************************************************Server Listeners**********************************************/
 
@@ -235,15 +235,6 @@ const options = {
 /*****************************************Event Listeners ******************************************/
 
 //login event listener (used to login to the app)
-if (loginButton) {
-  loginButton.addEventListener('click', function (event) {
-    event.preventDefault();
-    const loginPIN = document.querySelector('.login__input--pin');
-    const loginText = document.querySelector('.login__input--user');
-    loginFunc(loginPIN, loginText, loginBox);
-    // Get the value of the input field
-  });
-}
 
 if (mobileLoginButton) {
   mobileLoginButton.addEventListener('click', function (event) {
@@ -278,20 +269,18 @@ const loginFunc = function (PIN, user, screen) {
 
     screen.close();
 
-    const signOnSection = document.querySelector('.signOnSection');
+    mobileLoginBox.close();
+    mobileLoginBox.style.display = 'none';
 
-    signOnSection.style.display = 'none';
     console.log(currentProfile);
 
     // Display welcome message
-    const signOnText = document.querySelector('.signOnText');
-    signOnText.textContent = currentProfile.memberName.split(' ')[0];
 
     // Hide login form and display main app
     const formDiv = document.querySelector('.formDiv');
     const mainApp = document.querySelector('.mainApp');
 
-    mainApp.style.display = 'flex';
+    mainApp.style.display = 'inline';
     mainApp.style.opacity = 100;
 
     currentAccount = currentProfile.checkingAccount;
