@@ -92,6 +92,11 @@ body {
   margin-top: 5rem;
 }
 
+.mobileInput {
+  margin-left: 0.3rem;
+  width: 12rem;
+}
+
 .accountNumber {
   margin: auto;
   margin-top: 2rem;
@@ -138,4 +143,175 @@ body {
   margin-left: 2rem;
   text-align: left;
   font-weight: 600;
+}
+
+.bankingTools {
+  padding-top: 5rem;
+}
+
+.bankingImg {
+  color: #e0d6bf;
+  font-size: 2.3rem;
+  margin-right: 6rem;
+}
+
+.bankingText {
+  text-align: left;
+  margin-top: 0.3rem;
+  position: relative;
+  right: 6rem;
+}
+
+.bankingImg:hover {
+  color: #362d20;
+}
+
+.offcanvas {
+  color: white;
+  background-color: #61563e;
+}
+
+.accountsLogout {
+  margin-top: 10rem;
+}
+
+.baseModal {
+  background-color: #94845f;
+  border-radius: 2rem;
+  width: 50%;
+  height: 60%;
+  text-align: center;
+  border-style: none;
+  color: white;
+}
+
+.signOnBox::backdrop {
+  opacity: 005;
+}
+
+.transferText {
+  font-weight: 600;
+  margin-left: 10rem;
+}
+
+.accountSelection {
+  margin: 2rem 0 2rem 0;
+}
+
+.exitMark {
+  font-size: 2rem;
+  color: #ccc2a6;
+}
+
+.exitMark:hover {
+  color: #61563e;
+}
+
+.form__input--amount--transfer {
+  margin: 0.5rem 0 1rem 0;
+  text-align: center;
+}
+
+.transferBtn {
+  margin-top: 5rem;
+}
+
+select {
+  font-weight: 600;
+  background-color: #ccc2a6;
+  color: #61563e;
+  border-style: none;
+  border-radius: 1rem;
+}
+
+input {
+  font-weight: 600;
+  background-color: #ccc2a6;
+  color: #61563e;
+  border-style: none;
+  border-radius: 1rem;
+}
+
+.form__btn--transfer {
+  border-style: none;
+  background: linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+  background-color: #eae0c2;
+  border-radius: 42px;
+  width: 40%;
+  display: inline-block;
+  cursor: pointer;
+  color: #505739;
+  font-family: Arial;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffffff;
+}
+.form__btn--transfer:hover {
+  background: linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+  background-color: #ccc2a6;
+}
+.form__btn--transfer:active {
+  position: relative;
+  top: 1px;
+}
+
+.mobileSignOnBox {
+  border-radius: 2rem;
+  color: white;
+  text-align: center;
+  height: 80%;
+  width: 60%;
+  background-color: #94845f;
+  border-style: none;
+}
+
+.mobileWelcome {
+  width: 80%;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.mobilePinRow {
+  width: 100%;
+  position: relative;
+  bottom: 2rem;
+}
+
+.userNameRow {
+  width: 100%;
+  position: relative;
+  bottom: 2rem;
+}
+.mobileIcon {
+  position: relative;
+  top: 4.3rem;
+  left: 1rem;
+  font-size: 0.8rem;
+}
+
+.mobileLoginBtn {
+  position: relative;
+  left: 0.5rem;
+  margin: auto;
+
+  width: 90%;
+}
+
+.mobileSignInText {
+  font-size: 0.75rem;
+  width: 50%;
+}
+
+.signInText {
+  font-size: 0.85rem;
+  font-weight: 200;
+}
+
+.mobileInput {
+  margin-top: 2rem;
+  padding-left: 2rem;
+  height: 1.5rem;
 }
