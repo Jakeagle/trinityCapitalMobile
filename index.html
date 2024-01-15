@@ -28,11 +28,98 @@
     ></script>
   </head>
   <body>
+    <div class="mainApp">
     <section class="upperScreen">
       <div class="header row">
         <div class="col-4 toolsBtn">
-          <i class="fa-solid fa-ellipsis"></i>
+          <a class="" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <i class="fa-solid fa-ellipsis"></i>
+          </a>
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Tools</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <div class="bankingTools">
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="">
+                      <i
+                        class="fa-solid fa-money-bill-transfer bankingImg transferBTN"
+                      ></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Transfer</p>
+                  </div>
+                </div>
+      
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="">
+                      <i
+                        class="fa-solid fa-file-invoice-dollar bankingImg billsModalBTN"
+                      ></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Bills and Pay Checks</p>
+                  </div>
+                </div>
+      
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="">
+                      <i class="fa-solid fa-money-check bankingImg"></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Deposits</p>
+                  </div>
+                </div>
+      
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="">
+                      <i class="fa-solid fa-dollar-sign bankingImg"></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Send Money</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accountsLogout">
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="">
+                      <i class="fa-solid fa-user bankingImg accountSwitchBTN"></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Accounts</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col transferBox">
+                    <p class="col">
+                      <i
+                        class="fa-solid fa-right-from-bracket bankingImg logOutBTN"
+                      ></i>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p class="transfer bankingText">Logout</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
         </div>
+        
         <div class="col-4 bankName">
           <h3 class="bankName">Trinity Capital</h3>
         </div>
@@ -102,7 +189,7 @@
         </div>
       </div>
     </section>
-
+    </div>
     <script src="Frontend/Javascript/script.js" type="module"></script>
     <script src="Frontend/Javascript/billsAndPayments.js" type="module"></script>
     <script src="Frontend/Javascript/numberCrunch.js" type="module"></script>
@@ -110,4 +197,513 @@
     <script src="Frontend/Javascript/accountSwitch.js" type="module"></script>
     <script src="Frontend/Javascript/mobile.js" type="module"></script>
   </body>
+
+  <dialog class="transferModal baseModal">
+    <div class="transferHeader row">
+      <div class="col-10">
+        <h1 class="transferText">Transfer</h1>
+      </div>
+      <div class="col-2">
+        <p class="exitMark">
+          <i class="fa-solid fa-circle-xmark transferExitButton"></i>
+        </p>
+      </div>
+    </div>
+
+    <div class="row accountsRow">
+      <div class="col fromTrans accountSelection">
+        <h2 class="fromText">From</h2>
+        <label
+          for="accounts"
+          class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+        >
+          Choose an Account</label
+        >
+
+        <select
+          name="accounts"
+          class="accountsListFrom col-lg-6 col-md-6 col-sm-12"
+        >
+          <option value="account">Account</option>
+        </select>
+      </div>
+      <div class="col toTrans accountSelection">
+        <h2 class="toText">To</h2>
+        <label
+          for="accounts"
+          class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+        >
+          Choose an Account</label
+        >
+
+        <select
+          name="accounts"
+          class="accountsListTo col-lg-6 col-md-6 col-sm-12"
+        >
+          <option value="account">Account</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="submitRow">
+      <div class="amountBox">
+        <h3 class="amountTitle">Amount</h3>
+        <div class="amountBoxDiv">
+          <div class="accountsTransferFrom">
+            <input
+              type="text"
+              class="form__input form__input--amount--transfer"
+            />
+          </div>
+          <div class="transferBtn">
+            <h4 class="submitTransfer">Submit</h4>
+            <button class="form__btn form__btn--transfer">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="baseModal billsAndPaymentsModal">
+    <div class="transferHeader row">
+      <div class="col-10">
+        <h1 class="transferText">Bills and payments</h1>
+      </div>
+      <div class="col-2">
+        <p class="exitMark">
+          <i class="fa-solid fa-circle-xmark closeBills"></i>
+        </p>
+      </div>
+
+      <div class="row accountsRow">
+        <div class="col fromTrans billSelection">
+          <h2 class="fromText">Bills</h2>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Type</label
+          >
+
+          <select
+            name="billType"
+            class="accountsListFrom billType col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="type">Type</option>
+            <option value="rent">Rent</option>
+            <option value="car-note">Car Note</option>
+            <option value="car-insurance">Car Insurance</option>
+            <option value="home-insurance">Home Insurance</option>
+            <option value="food">Food</option>
+            <option value="electric">Electric Bill</option>
+            <option value="gas">Gas Bill</option>
+            <option value="water">Water Bill(Includes Sewage)</option>
+            <option value="trash-collection">Trash Collection</option>
+            <option value="phone-bill">Phone Bill</option>
+            <option value="internet">internet</option>
+            <option value="custom-expense">Custom Expense</option>
+          </select>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Name</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom billInputName \col-lg-6 col-md-6 col-sm-12"
+          />
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Amount</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom form__input--amount--bills col-lg-6 col-md-6 col-sm-12"
+          />
+
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Frequency</label
+          >
+
+          <select
+            name="billFrequency"
+            class="accountsListFrom billFrequency col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="frequency">Frequency</option>
+            <option value="weekly">Weekly</option>
+            <option value="bi-weekly">Bi-Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <div class="transferBtn">
+            <h4 class="submitTransfer">Submit</h4>
+            <button class="form__btn form__btn--transfer form__btn--bills">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="col fromTrans paymentSelection">
+          <h2 class="fromText">Payments</h2>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Type</label
+          >
+
+          <select
+            name="paymentType"
+            class="accountsListFrom paymentType col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="type">Payment Type</option>
+            <option value="paycheck">Paycheck</option>
+          </select>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Name</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom paymentName col-lg-6 col-md-6 col-sm-12"
+          />
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Amount</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom form__input--amount--payments col-lg-6 col-md-6 col-sm-12"
+          />
+
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Frequency</label
+          >
+
+          <select
+            name="paymentFrequency"
+            class="accountsListFrom paymentFrequency col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="frequency">Frequency</option>
+            <option value="weekly">Weekly</option>
+            <option value="bi-weekly">Bi-Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <div class="transferBtn">
+            <h4 class="submitTransfer">Submit</h4>
+            <button class="form__btn form__btn--transfer form__btn--payments">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  
+  <dialog class="mobileSignOnBox">
+    <h1 class="welcomeBackSignOn mobileWelcome">Welcome Back!</h1>
+
+    <h3 class="welcomeBackSignOn signInText">Sign in to continue</h3>
+
+    <div class="row userNameRow mobileRow">
+      <div class="col-1">
+        <p class="userIcon mobileIcon"><i class="fa-solid fa-user"></i></p>
+      </div>
+      <div class="col-11">
+        <input
+          class="login__input--user userNameInput mobileInput mobile_login__input--user"
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="row pinRow mobilePinRow mobileRow">
+      <div class="col-1">
+        <p class="userIcon mobileIcon"><i class="fa-solid fa-lock"></i></p>
+      </div>
+      <div class="col-11">
+        <input
+          class="login__input--user userNameInput mobileInput mobile_login__input--pin"
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="signUpBtn signInBtn mobileLoginBtn login__btn">
+      <h1 class="SignUpText mobileSignInText">Sign In</h1>
+    </div>
+  </dialog>
+
+  <dialog class="baseModal accountSwitchModal">
+    <div class="accountRow row">
+      <div class="col-10">
+        <h1 class="transferText">Accounts</h1>
+      </div>
+      <div class="col-2">
+        <p class="exitMark">
+          <i class="fa-solid fa-circle-xmark closeAccounts"></i>
+        </p>
+      </div>
+    </div>
+    <div class="accounts">
+      <div class="accountListBg">
+        <h2 class="accountsText selectAccText">Select an account</h2>
+
+        <ul class="theList"></ul>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="baseModal sendMoneyModal">
+    <div class="transferHeader row">
+      <div class="col-10">
+        <h1 class="transferText">Bills and payments</h1>
+      </div>
+      <div class="col-2">
+        <p class="exitMark">
+          <i class="fa-solid fa-circle-xmark closeBills"></i>
+        </p>
+      </div>
+
+      <div class="row accountsRow">
+        <div class="col fromTrans billSelection">
+          <h2 class="fromText">Bills</h2>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Type</label
+          >
+          .baseModal {
+            background-color: #94845f;
+            border-radius: 2rem;
+            width: 50%;
+            height: 60%;
+            text-align: center;
+            border-style: none;
+            color: white;
+          }
+          
+          .signOnBox::backdrop {
+            opacity: 005;
+          }
+          
+          .transferText {
+            font-weight: 600;
+            margin-left: 10rem;
+          }
+          
+          .accountSelection {
+            margin: 2rem 0 2rem 0;
+          }
+          
+          .exitMark {
+            font-size: 2rem;
+            color: #ccc2a6;
+          }
+          
+          .exitMark:hover {
+            color: #61563e;
+          }
+          
+          .form__input--amount--transfer {
+            margin: 0.5rem 0 1rem 0;
+            text-align: center;
+          }
+          
+          .transferBtn {
+            margin-top: 5rem;
+          }
+          
+          select {
+            font-weight: 600;
+            background-color: #ccc2a6;
+            color: #61563e;
+            border-style: none;
+            border-radius: 1rem;
+          }
+          
+          input {
+            font-weight: 600;
+            background-color: #ccc2a6;
+            color: #61563e;
+            border-style: none;
+            border-radius: 1rem;
+          }
+          
+          .form__btn--transfer {
+            border-style: none;
+            background: linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+            background-color: #eae0c2;
+            border-radius: 42px;
+            width: 40%;
+            display: inline-block;
+            cursor: pointer;
+            color: #505739;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 10px 24px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+          }
+          .form__btn--transfer:hover {
+            background: linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+            background-color: #ccc2a6;
+          }
+          .form__btn--transfer:active {
+            position: relative;
+            top: 1px;
+          }
+          <select
+            name="billType"
+            class="accountsListFrom billType col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="type">Type</option>
+            <option value="rent">Rent</option>
+            <option value="car-note">Car Note</option>
+            <option value="car-insurance">Car Insurance</option>
+            <option value="home-insurance">Home Insurance</option>
+            <option value="food">Food</option>
+            <option value="electric">Electric Bill</option>
+            <option value="gas">Gas Bill</option>
+            <option value="water">Water Bill(Includes Sewage)</option>
+            <option value="trash-collection">Trash Collection</option>
+            <option value="phone-bill">Phone Bill</option>
+            <option value="internet">internet</option>
+            <option value="custom-expense">Custom Expense</option>
+          </select>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Name</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom billInputName \col-lg-6 col-md-6 col-sm-12"
+          />
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Amount</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom form__input--amount--bills col-lg-6 col-md-6 col-sm-12"
+          />
+
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Bill Frequency</label
+          >
+
+          <select
+            name="billFrequency"
+            class="accountsListFrom billFrequency col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="frequency">Frequency</option>
+            <option value="weekly">Weekly</option>
+            <option value="bi-weekly">Bi-Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <div class="transferBtn">
+            <h4 class="submitTransfer">Submit</h4>
+            <button class="form__btn form__btn--transfer form__btn--bills">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="col fromTrans paymentSelection">
+          <h2 class="fromText">Payments</h2>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Type</label
+          >
+
+          <select
+            name="paymentType"
+            class="accountsListFrom paymentType col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="type">Payment Type</option>
+            <option value="paycheck">Paycheck</option>
+          </select>
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Name</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom paymentName col-lg-6 col-md-6 col-sm-12"
+          />
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Amount</label
+          >
+
+          <input
+            type="text"
+            class="accountsListFrom form__input--amount--payments col-lg-6 col-md-6 col-sm-12"
+          />
+
+          <label
+            for="billType"
+            class="col-lg-6 col-md-6 col-sm-12 chooseAccountLabel"
+          >
+            Payment Frequency</label
+          >
+
+          <select
+            name="paymentFrequency"
+            class="accountsListFrom paymentFrequency col-lg-6 col-md-6 col-sm-12"
+          >
+            <option value="frequency">Frequency</option>
+            <option value="weekly">Weekly</option>
+            <option value="bi-weekly">Bi-Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+          <div class="transferBtn">
+            <h4 class="submitTransfer">Submit</h4>
+            <button class="form__btn form__btn--transfer form__btn--payments">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
 </html>
