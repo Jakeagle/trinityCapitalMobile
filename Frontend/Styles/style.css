@@ -24,6 +24,7 @@ body {
 }
 
 .pfp {
+  text-align: left;
   margin: auto;
   border: #ae8626;
   border-style: inset;
@@ -85,6 +86,13 @@ body {
   background-color: #362d20;
   margin: auto;
   margin-top: 2rem;
+}
+
+.accountType {
+  text-align: left;
+  font-weight: 200;
+  margin-left: 2rem;
+  margin-top: 1rem;
 }
 
 .slideBtn {
@@ -178,7 +186,7 @@ body {
 .baseModal {
   background-color: #94845f;
   border-radius: 2rem;
-  width: 50%;
+  width: 80%;
   height: 60%;
   text-align: center;
   border-style: none;
@@ -191,7 +199,7 @@ body {
 
 .transferText {
   font-weight: 600;
-  margin-left: 10rem;
+  margin-left: 3.5rem;
 }
 
 .accountSelection {
@@ -213,7 +221,7 @@ body {
 }
 
 .transferBtn {
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 select {
@@ -314,4 +322,71 @@ input {
   margin-top: 2rem;
   padding-left: 2rem;
   height: 1.5rem;
+}
+
+.transactionBlock {
+  height: 20rem;
+  margin-top: 4rem;
+  overflow: scroll;
+}
+
+.transactionTitleText {
+  position: relative;
+  top: 2.5rem;
+  margin-left: 2rem;
+  text-align: left;
+}
+
+.transImg {
+  font-size: 2rem;
+}
+
+.transName {
+  font-size: 0.5rem;
+  position: relative;
+  right: 2.5rem;
+}
+
+.transDate {
+  position: relative;
+  right: 2.8rem;
+  font-size: 0.8rem;
+}
+
+.transAmountText {
+  position: relative;
+  right: 2rem;
+}
+
+.paymentSelection {
+  margin-top: 6rem;
+}
+
+.accountsListFrom {
+  margin: 0.3rem 0 1rem 0;
+}
+
+.billText {
+  position: relative;
+  right: 4rem;
+}
+
+.icon {
+  position: relative;
+  right: 1.5rem;
+}
+
+.dateText {
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.pfpImg {
+  position: relative;
+  right: 0.74rem;
+  width: 1.55rem;
+}
+
+.offScreenBtn {
+  color: #94845f;
 }
