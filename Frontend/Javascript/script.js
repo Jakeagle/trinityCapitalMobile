@@ -1,5 +1,18 @@
 'use strict';
 
+var url = window.location.pathname;
+var filename = url.substring(url.lastIndexOf('/') + 1);
+var mobilePage = '.html';
+if (
+  !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(
+    navigator.userAgent
+  )
+) {
+  window.location.replace('https://trinitycapitalsimulation.netlify.app');
+} else {
+  console.log('Were on MOBILE!');
+}
+
 /********************************************Modal control*************************************/
 const mainApp = document.querySelector('.mainApp');
 const loginBox = document.querySelector('.signOnBox');
@@ -58,29 +71,14 @@ console.log('User connected:' + socket.id);
 socket.on('checkingAccountUpdate', updatedChecking => {
   // Access the checkingAccount data from updatedUserProfile
   const checkingAccount = updatedChecking;
-  console.log(checkingAccount, 'This is working');
 
   // Call your existing updateUI function with the updated checking account data
   displayBalance(checkingAccount);
   displayTransactions(checkingAccount);
 });
 
-socket.on('donationChecking', updatedDonCheck => {
-  const checkingAccount = updatedDonCheck;
-  console.log(checkingAccount, 'This is working');
-
-  // Call your existing updateUI function with the updated checking account data
-  displayBalance(checkingAccount);
-  displayTransactions(checkingAccount);
-});
-
-socket.on('donationSaving', updatedDonSav => {
-  const savingsAccount = updatedDonSav;
-  console.log(savingsAccount, 'This is working');
-
-  // Call your existing updateUI function with the updated checking account data
-  displayBalance(savingsAccount);
-  displayTransactions(savingsAccount);
+socket.on('accountsUpdate', updatedCards => {
+  cardShift(updatedCards);
 });
 
 /***********************************************************Server Functions**********************************************/
@@ -107,7 +105,6 @@ export async function getInfoProfiles() {
       Profiles = await res.json();
 
       // Log the initial profiles
-      console.log(Profiles);
 
       // Now, listen for updates from the Socket.IO server
       socket.on('profiles', updatedProfiles => {
@@ -148,7 +145,6 @@ async function loanPush() {
       parcel: [currentProfile, parseInt(loanAmount.value)],
     }),
   });
-  console.log(currentProfile);
 }
 
 async function donationPush() {
@@ -177,8 +173,6 @@ async function donationPushSavings() {
 
 export let profiles = await getInfoProfiles();
 
-console.log(profiles);
-
 /******************************************Variables ***************************************************/
 
 export let currentAccount;
@@ -204,11 +198,12 @@ export let balance;
 
 const lastUpdated = document.querySelector('.updateDate');
 const transActionsDate = document.querySelector('.transactions__date');
-const balanceValue = document.querySelector('.balance__value');
+const balanceValue = document.querySelector('.actualBalanceText');
 const balanceLabel = document.querySelector('.balance__label');
 const accNumSwitch = document.querySelector('.form__input--user--switch');
 const accPinSwitch = document.querySelector('.form__input--pin--switch');
-const accBtnSwitch = document.querySelector('.form__btn--switch');
+const nextSwitch = document.querySelector('.nextBtn');
+const prevSwitch = document.querySelector('.prevBtn');
 const btnClose = document.querySelector('.form__btn--close');
 const userClose = document.querySelector('.form__input--user--close');
 const userClosePin = document.querySelector('.form__input--pin--close');
@@ -220,6 +215,7 @@ const donateAmount = document.querySelector('.form__input--donate--amount');
 const donatePin = document.querySelector('.form__input--pin--donate');
 const accNumHTML = document.querySelector('.accountNumber');
 const balanceDate = document.querySelector(`.dateText`);
+const totalBalance = document.querySelector('.totalBalance');
 const now = new Date();
 
 //Used for formatting dates
@@ -244,7 +240,6 @@ if (mobileLoginButton) {
       '.mobile_login__input--user'
     );
     loginFunc(mobileLoginPIN, mobileLoginText, mobileLoginBox);
-    console.log('running');
   });
 }
 
@@ -252,7 +247,6 @@ const loginFunc = function (PIN, user, screen) {
   const pin = parseInt(PIN.value);
 
   for (let i = 0; i < profiles.length; i++) {
-    console.log(profiles[i].userName);
     if (user.value === profiles[i].userName && pin === profiles[i].pin) {
       currentProfile = profiles[i];
     } else if (user.value === profiles[i].userName && pin !== profiles[i].pin) {
@@ -264,15 +258,22 @@ const loginFunc = function (PIN, user, screen) {
 
   if (currentProfile) {
     initialBalance();
-    console.log(currentProfile);
+
+    let accounts = [
+      currentProfile.checkingAccount,
+      currentProfile.savingsAccount,
+    ];
+
+    totalBalance.textContent =
+      currentProfile.checkingAccount.balanceTotal +
+      currentProfile.savingsAccount.balanceTotal;
+
     // Retrieve saved transactions for current account
 
     screen.close();
 
     mobileLoginBox.close();
     mobileLoginBox.style.display = 'none';
-
-    console.log(currentProfile);
 
     // Display welcome message
 
@@ -285,23 +286,23 @@ const loginFunc = function (PIN, user, screen) {
 
     currentAccount = currentProfile.checkingAccount;
     if (currentAccount) {
-      console.log(currentAccount);
       //Add currentAccount here
       // Update the UI with the first account's information
       updateUI(currentAccount);
+      cardShift(accounts);
       //Starts loop function that displays the current Accounts bills
 
       //Displays the "Current Balanace for "x" string
-      // balanceLabel.textContent = `Current balance for: #${currentAccount.accountNumber.slice(
+      // balanceLabel.textContent = `**** ${currentAccount.accountNumber.slice(
       //   -4
       // )}`;
 
-      //Displays the "As of" portion with the current date
-      updateTime();
-      balanceDate.textContent = `As of ${new Intl.DateTimeFormat(
-        currentProfile.locale,
-        options
-      ).format(currentTime)}`;
+      // //Displays the "As of" portion with the current date
+      // updateTime();
+      // balanceDate.textContent = `${new Intl.DateTimeFormat(
+      //   currentProfile.locale,
+      //   options
+      // ).format(currentTime)}`;
       //Display saved transactions for current account
       displayTransactions(currentAccount);
     } else {
@@ -311,56 +312,34 @@ const loginFunc = function (PIN, user, screen) {
 };
 
 //Switch accounts
-if (accBtnSwitch) {
-  accBtnSwitch.addEventListener('click', function (e) {
-    e.preventDefault();
-    console.log(currentAccount);
-    //The value for the account you want to switch too
-    let targetAccount = accNumSwitch.value;
-    accPIN = parseInt(accPinSwitch.value);
-    //Variable that matches the above with the matching account number
-    let accountToSwitch;
-
-    if (accPIN === currentProfile.pin) {
-      if (
-        targetAccount === currentProfile.checkingAccount.accountNumber.slice(-4)
-      ) {
-        currentAccount = currentProfile.checkingAccount;
-        balanceLabel.textContent = `Current Balance for: #${currentAccount.accountNumber.slice(
-          -4
-        )}`;
-        updateUI(currentAccount);
-      } else if (
-        targetAccount === currentProfile.savingsAccount.accountNumber.slice(-4)
-      ) {
-        currentAccount = currentProfile.savingsAccount;
-        balanceLabel.textContent = `Current Balance for: #${currentAccount.accountNumber.slice(
-          -4
-        )}`;
-        updateUI(currentAccount);
-      }
-    } else {
-      alert('Incorrect PIN');
-    }
-
-    //Variable for the loan section
-    const loanBox = document.querySelector('.operation--loan');
-    //checks for savings accounr
-
-    if (currentAccount.accountType === 'Savings') {
-      loanBox.style.display = 'none';
-    }
-    //takes away loans if savings
-    else if (currentAccount.accountType === 'Checking') {
-      loanBox.style.display = 'inline';
-    }
-
-    accNumSwitch.value = '';
-    accPinSwitch.value = '';
-  });
-}
-
+let currentIndex = 0;
+nextSwitch.addEventListener('click', function () {
+  if (currentIndex === 0) {
+    currentIndex = currentIndex + 1;
+  } else if (currentIndex === 1) {
+    currentIndex = currentIndex - 1;
+  }
+  console.log(currentIndex);
+  accountSwitch(currentIndex);
+});
 //requesting loans
+prevSwitch.addEventListener('click', function () {
+  if (currentIndex === 0) {
+    currentIndex = currentIndex + 1;
+  } else if (currentIndex === 1) {
+    currentIndex = currentIndex - 1;
+  }
+  console.log(currentIndex);
+  accountSwitch(currentIndex);
+});
+const accountSwitch = function (i) {
+  const accountsList = [
+    currentProfile.checkingAccount,
+    currentProfile.savingsAccount,
+  ];
+
+  displayTransactions(accountsList[i]);
+};
 
 //checks if button exists
 if (requestLoanbtn) {
@@ -400,7 +379,6 @@ if (mainApp) {
 
 const createUsername = function (prfs) {
   for (let i = 0; i < prfs.length; i++) {
-    console.log(prfs[i].memberName);
     prfs[i].userName = prfs[i].memberName
       .toLowerCase()
       .split(' ')
@@ -445,7 +423,7 @@ const displayAccounts = function (currentAccount) {
     ]
   ).toLocaleDateString(currentProfile.locale);
 
-  const html = [
+  const html1 = [
     `
         <div class="row accountsRow">
           <div class="col accountType">${
@@ -469,7 +447,7 @@ const displayAccounts = function (currentAccount) {
       `,
   ];
 
-  accountContainer.insertAdjacentHTML('beforeEnd', html);
+  accountContainer.insertAdjacentHTML('beforeEnd', html1);
 };
 
 //Display Transactions
@@ -570,8 +548,12 @@ export const displayTransactions = function (currentAccount) {
                     </div>
                     <div class="transNameAndDate col">
                       <p class="transName">${transName} (${mov.Category})</p>
-                      <p class="transDate">${displayDate}</p>
+                     
                     </div>
+                    <div class="transNameAndDate col">
+                    
+                    <p class="transDate">${displayDate}</p>
+                  </div>
                     <div class="transAmount col">
                       <p class="transAmountText ${transType}">${formattedMov}</p>
                     </div>
@@ -627,7 +609,7 @@ export const displayBillList = function (currentAccount) {
         advancedDate,
         currentAccount.locale
       );
-      console.log(displayDate);
+
       //Formats transactions for user locale
       const formattedMov = formatCur(
         bill.amount,
@@ -691,10 +673,10 @@ export const displayBillList = function (currentAccount) {
       <div class="icon col-4">
         ${billIcon}
       </div>
-      <div class="billName col">
+      <div class="billName col-4">
         <p class="billText">${bill.Name}($${bill.amount})</p>
       </div>
-      <div class="col billDate">
+      <div class="col-4 billDate">
         <p>Reoccurs: ${displayDate}</p>
       </div>
     </div>`;
@@ -723,13 +705,59 @@ function formatCur(value, currency, locale) {
 //Displays the current balance based on the transactions array
 export const displayBalance = function (acc) {
   //calculates the balance based on the transaction array
-
+  let dualBalance =
+    currentProfile.checkingAccount.balanceTotal +
+    currentProfile.savingsAccount.balanceTotal;
   //displays balance
   balanceValue.textContent = formatCur(
     acc.balanceTotal,
     acc.locale,
     acc.currency
   );
+};
+
+export const cardShift = function (cards) {
+  const container = document.querySelector('.carousel-inner');
+  container.innerHTML = '';
+  let accountList = [];
+
+  let cardNum = 0;
+
+  console.log(cards);
+  cards.forEach(card => {
+    cardNum++;
+    const html = [
+      `<div class="carousel-item accountCard${cardNum} active">
+    <div class="accountCard ">
+      <div class="accountHead row">
+        <div class="col numCol"> <h4 class="accountNumber col-6">**** ${card.accountNumber.slice(
+          -4
+        )}</h4></div>
+        <div class="col numCol bankCol"> <h4 class="bankName accountNumber col-6">Trinity Capital</h4></div>
+      </div>
+      <div class="balanceSection row">
+        <div class="col -6"><h6 class="balanceText ">Balance as of  </h6></div>
+        <div class="col -6"><h6 class="balanceText balanceDateText"> ${new Intl.DateTimeFormat(
+          currentProfile.locale,
+          options
+        ).format(currentTime)}</h6></div>
+        
+      </div>
+      <div class="actualBalance">
+        <h1 class="actualBalanceText">$${card.balanceTotal}.00</h1>
+      </div>
+      <div class="accountType">${card.accountType} Account</div>
+    </div>
+  </div>`,
+    ];
+
+    container.insertAdjacentHTML('beforeEnd', html);
+  });
+
+  const card2 = document.querySelector('.accountCard2');
+  card2.classList.remove('active');
+
+  updateTime();
 };
 
 //Updates the webpage UI with all of the needed data
