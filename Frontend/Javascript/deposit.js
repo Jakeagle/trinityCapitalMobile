@@ -1,56 +1,46 @@
-'use strict';
+"use strict";
 
-import { profiles } from './script.js';
-import { transactionsPush } from './script.js';
+import { getInfoProfiles } from "./script.js";
+import { currentProfile } from "./script.js";
+
+console.log(currentProfile);
 
 /**************************************************Variables ***********************************************/
 
-const mainForm = $('.depositForm');
+const name = $(".nameInput");
 
-const name = $('.nameInput');
+const dest = document.querySelector(".destInput");
 
-const amount = $('.amountInput');
+const amount = $(".amountInput");
 
-const date = $('.dateInput');
+const date = $(".dateInput");
 
-const wordedAmount = $('.wordedAmountInput');
+const signature = $(".sigInput");
 
-const signature = $('.sigInput');
+const submit = $(".submitBtn");
 
-const submit = $('.submitBtn');
+const mainApp = $(".mainApp");
 
-const mainApp = $('.mainApp');
+const backBTN = $(".backBtn");
 
-const signOnSection = $('.signOnSection');
+const loginBTN = document.querySelector(".login__btn");
 
-const inputPIN = $('.login__input--pin--bp');
+const depositLink = "https://trinitycapitaltestserver-2.azurewebsites.net/deposits";
 
-const inputBTN = $('.login__btn--bp');
-
-const backBTN = $('.backBtn');
-
-let currentProfile;
-
-mainApp.css('display', 'none');
+mainApp.css("display", "none");
 
 /******************************************************Event listeners **************************************/
 backBTN.click(function () {
-  location.replace('index.html');
+  location.replace("index.html");
 });
 
 submit.click(function (e) {
   e.preventDefault();
-  checkAll(currentProfile);
+  checkAll();
 });
 
-inputBTN.click(function () {
-  let PIN = parseInt(inputPIN.val());
-
-  //Matches pin to profiles and logs in.
-  currentProfile = profiles.find(profile => profile.pin === PIN);
-  mainApp.css('display', 'block');
-  signOnSection.css('display', 'none');
-  //loops through accounts in currentProfile
+loginBTN.addEventListener("click", function () {
+  console.log(currentProfile.memberName);
 });
 
 /********************************************************Functions *****************************************/
@@ -70,34 +60,34 @@ const checkAll = function () {
   console.log(currentDate);
 
   if (userDate > currentDate) {
-    alert('Cannot use a date in the future. Please Try Again');
+    alert("Cannot use a date in the future. Please Try Again");
   } else if (userDate <= currentDate) {
     dateComplete = true;
   }
 
   if (prfUser !== currentProfile.memberName) {
-    alert('You must enter the name on your account');
+    alert("You must enter the name on your account");
   } else if (prfUser === currentProfile.memberName) {
     nameComplete = true;
   }
 
   currentProfile.sig = currentProfile.memberName
     .toLowerCase()
-    .split(' ')
-    .map(name => name[0])
-    .join('');
+    .split(" ")
+    .map((name) => name[0])
+    .join("");
 
   console.log(currentProfile.sig);
 
   if (userSig !== currentProfile.sig) {
     alert(
-      'Your signature is the first and last initial of the name on your account'
+      "Your signature is the first and last initial of the name on your account"
     );
   } else if (userSig === currentProfile.sig) {
     sigComplete = true;
   }
   if (userAmount > 1000000) {
-    alert('The Maximum deposit amount per day is $10000');
+    alert("The Maximum deposit amount per day is $10000");
   } else if (userAmount <= 1000000) {
     amountComplete = true;
   }
@@ -108,18 +98,23 @@ const checkAll = function () {
 };
 
 const loanAdd = function () {
-  console.log('Ran');
+  console.log("Ran");
 
   let userLoan = parseInt(amount.val());
-  if (userLoan <= 0) {
-    alert('Cannot use negative amount');
-  } else if (userLoan > 0) {
-    currentProfile.accounts[0].transactions.push(userLoan);
-    currentProfile.accounts[0].movementsDates.push(new Date().toISOString());
-    transactionsPush();
-    console.log('complete', userLoan);
-    alert(' Succesfull');
-    //send user back to main page
-    location.replace('index.html');
-  }
+
+  let member = currentProfile.memberName;
+
+  sendDeposit(userLoan, dest.value, member);
 };
+
+export async function sendDeposit(loan, destination, member) {
+  const res = await fetch(depositLink, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      parcel: [loan, destination, member],
+    }),
+  });
+}
