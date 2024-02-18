@@ -1,7 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /******************************Special Items********************************/
-@media screen and (orientation: landscape) {
+@media (orientation: landscape) {
+  #name-payto {
+    width: 10rem;
+  }
+  #signature {
+    width: 6rem;
+  }
 }
 body {
   font-family: "Poppins", sans-serif;
