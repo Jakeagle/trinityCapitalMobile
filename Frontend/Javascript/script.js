@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 var url = window.location.pathname;
-var filename = url.substring(url.lastIndexOf('/') + 1);
-var mobilePage = '.html';
+var filename = url.substring(url.lastIndexOf("/") + 1);
+var mobilePage = ".html";
 if (
   !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|OperaMini/i.test(
     navigator.userAgent
@@ -10,65 +10,88 @@ if (
 ) {
   window.location.replace('https://trinitycapitalsimulation.netlify.app');
 } else {
-  console.log('Were on MOBILE!');
+  console.log("Were on MOBILE!");
 }
 
 /********************************************Modal control*************************************/
-const mainApp = document.querySelector('.mainApp');
-const loginBox = document.querySelector('.signOnBox');
-const startPage = document.querySelector('.startPage');
-const mobileLoginBox = document.querySelector('.mobileSignOnBox');
-const billsModal = document.querySelector('.billsAndPaymentsModal');
-const transferModal = document.querySelector('.transferModal');
-const accountSwitchModal = document.querySelector('.accountSwitchModal');
-const accountSwitchBTN = document.querySelector('.accountSwitchBTN');
+//Modals
+const mainApp = document.querySelector(".mainApp");
+const loginBox = document.querySelector(".signOnBox");
+const mobileLoginBox = document.querySelector(".mobileSignOnBox");
+const billsModal = document.querySelector(".billsAndPaymentsModal");
+const transferModal = document.querySelector(".transferModal");
+const accountSwitchModal = document.querySelector(".accountSwitchModal");
+const depositModal = document.querySelector(".depositModal");
+const sendMoneyModal = document.querySelector(".sendMoneyModal");
 
-const transferModalBTN = document.querySelector('.transferBTN');
-const closeTransferModal = document.querySelector('.transferExitButton');
-const billsModalBTN = document.querySelector('.billsModalBTN');
-const closeBillModal = document.querySelector('.closeBills');
-const closeAccountModal = document.querySelector('.closeAccounts');
-const logOutBTN = document.querySelector('.logOutBTN');
-if (logOutBTN) {
-  logOutBTN.addEventListener('click', function () {
-    location.reload();
-  });
-}
+//Modal Buttons
+const accountSwitchBTN = document.querySelector(".accountSwitchBTN");
+const transferModalBTN = document.querySelector(".transferBTN");
+const billsModalBTN = document.querySelector(".billsModalBTN");
+const depositModalBTN = document.querySelector(".depositsBTN");
+const sendMoneyBTN = document.querySelector(".sendMoneyBTN");
 
-billsModalBTN.addEventListener('click', function () {
+//close Modals
+const closeTransferModal = document.querySelector(".transferExitButton");
+const closeBillModal = document.querySelector(".closeBills");
+const closeAccountModal = document.querySelector(".closeAccounts");
+const closeDepositModal = document.querySelector(".closeDeposits");
+const closeSendMoneyModal = document.querySelector(".closeSendMoney");
+const logOutBTN = document.querySelector(".logOutBTN");
+logOutBTN.addEventListener("click", function () {
+  location.reload();
+});
+
+billsModalBTN.addEventListener("click", function () {
   billsModal.showModal();
 });
 
-closeBillModal.addEventListener('click', function () {
+closeBillModal.addEventListener("click", function () {
   billsModal.close();
 });
 
-transferModalBTN.addEventListener('click', function () {
+transferModalBTN.addEventListener("click", function () {
   transferModal.showModal();
 });
 
-closeTransferModal.addEventListener('click', function () {
+closeTransferModal.addEventListener("click", function () {
   transferModal.close();
 });
 
-accountSwitchBTN.addEventListener('click', function () {
+accountSwitchBTN.addEventListener("click", function () {
   accountSwitchModal.showModal();
 });
 
-closeAccountModal.addEventListener('click', function () {
+closeAccountModal.addEventListener("click", function () {
   accountSwitchModal.close();
 });
 
-if (mainApp) mainApp.style.display = 'none';
+depositModalBTN.addEventListener("click", function () {
+  depositModal.showModal();
+});
+
+closeDepositModal.addEventListener("click", function () {
+  depositModal.close();
+});
+
+sendMoneyBTN.addEventListener("click", function () {
+  sendMoneyModal.showModal();
+});
+
+closeSendMoneyModal.addEventListener("click", function () {
+  sendMoneyModal.close();
+});
+
+if (mainApp) mainApp.style.display = "none";
 
 mobileLoginBox.showModal();
 
 /***********************************************************Server Listeners**********************************************/
 
-export const socket = io('https://trinitycapitaltestserver-2.azurewebsites.net');
+export const socket = io("http://localhost:3000");
 
-console.log('User connected:' + socket.id);
-socket.on('checkingAccountUpdate', updatedChecking => {
+console.log("User connected:" + socket.id);
+socket.on("checkingAccountUpdate", (updatedChecking) => {
   // Access the checkingAccount data from updatedUserProfile
   const checkingAccount = updatedChecking;
 
@@ -77,20 +100,20 @@ socket.on('checkingAccountUpdate', updatedChecking => {
   displayTransactions(checkingAccount);
 });
 
-socket.on('accountsUpdate', updatedCards => {
+socket.on("accountsUpdate", (updatedCards) => {
   cardShift(updatedCards);
 });
 
 /***********************************************************Server Functions**********************************************/
-const testServerProfiles = 'https://trinitycapitaltestserver-2.azurewebsites.net/profiles';
+const testServerProfiles = "https://trinitycapitaltestserver-2.azurewebsites.net/profiles";
 
-const loanURL = 'https://trinitycapitaltestserver-2.azurewebsites.net/loans';
+const loanURL = "https://trinitycapitaltestserver-2.azurewebsites.net/loans";
 
-const donationURL = 'https://trinitycapitaltestserver-2.azurewebsites.net/donations';
+const donationURL = "https://trinitycapitaltestserver-2.azurewebsites.net/donations";
 
-const donationSavingsURL = 'https://trinitycapitaltestserver-2.azurewebsites.net/donationsSavings';
+const donationSavingsURL = "https://trinitycapitaltestserver-2.azurewebsites.net/donationsSavings";
 
-const balanceURL = 'https://trinitycapitaltestserver-2.azurewebsites.net/initialBalance';
+const balanceURL = "https://trinitycapitaltestserver-2.azurewebsites.net/initialBalance";
 
 // Store the received profiles in a global variable or a state variable if you're using a front-end framework
 let Profiles = [];
@@ -98,7 +121,7 @@ let Profiles = [];
 export async function getInfoProfiles() {
   try {
     const res = await fetch(testServerProfiles, {
-      method: 'GET',
+      method: "GET",
     });
 
     if (res.ok) {
@@ -107,16 +130,16 @@ export async function getInfoProfiles() {
       // Log the initial profiles
 
       // Now, listen for updates from the Socket.IO server
-      socket.on('profiles', updatedProfiles => {
+      socket.on("profiles", (updatedProfiles) => {
         // Update your UI with the updated profiles
-        console.log('Received updated profiles:', updatedProfiles);
+        console.log("Received updated profiles:", updatedProfiles);
 
         // For example, you can update a list of profiles
         // Assuming you have a function to update the UI
       });
       return Profiles;
     } else {
-      console.error('Failed to fetch profiles:', res.statusText);
+      console.error("Failed to fetch profiles:", res.statusText);
     }
   } catch (error) {
     console.error(error.message);
@@ -125,9 +148,9 @@ export async function getInfoProfiles() {
 
 export async function initialBalance() {
   const res = await fetch(balanceURL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       parcel: currentProfile,
@@ -137,9 +160,9 @@ export async function initialBalance() {
 
 async function loanPush() {
   const res = await fetch(loanURL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       parcel: [currentProfile, parseInt(loanAmount.value)],
@@ -149,9 +172,9 @@ async function loanPush() {
 
 async function donationPush() {
   const res = await fetch(donationURL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       parcel: [currentAccount, parseInt(donateAmount.value)],
@@ -161,9 +184,9 @@ async function donationPush() {
 
 async function donationPushSavings() {
   const res = await fetch(donationSavingsURL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       parcel: [currentAccount, parseInt(donateAmount.value)],
@@ -182,49 +205,49 @@ let accPIN;
 let accUser;
 //Currency codes for formatting
 const currencyCodeMap = {
-  840: 'USD',
-  978: 'EUR',
+  840: "USD",
+  978: "EUR",
   // add more currency codes here as needed
 };
 
-const closeT1 = document.querySelector('.closeBtn');
-const signOnForm = document.querySelector('signOnForm');
-const signOnText = document.querySelector('.signOntext');
-const loginButton = document.querySelector('.login__btn');
-const mobileLoginButton = document.querySelector('.mobileLoginBtn');
+const closeT1 = document.querySelector(".closeBtn");
+const signOnForm = document.querySelector("signOnForm");
+const signOnText = document.querySelector(".signOntext");
+const loginButton = document.querySelector(".login__btn");
+const mobileLoginButton = document.querySelector(".mobileLoginBtn");
 
-const formDiv = document.querySelector('.formDiv');
+const formDiv = document.querySelector(".formDiv");
 export let balance;
 
-const lastUpdated = document.querySelector('.updateDate');
-const transActionsDate = document.querySelector('.transactions__date');
-const balanceValue = document.querySelector('.actualBalanceText');
-const balanceLabel = document.querySelector('.balance__label');
-const accNumSwitch = document.querySelector('.form__input--user--switch');
-const accPinSwitch = document.querySelector('.form__input--pin--switch');
-const nextSwitch = document.querySelector('.nextBtn');
-const prevSwitch = document.querySelector('.prevBtn');
-const btnClose = document.querySelector('.form__btn--close');
-const userClose = document.querySelector('.form__input--user--close');
-const userClosePin = document.querySelector('.form__input--pin--close');
-const transactionContainer = document.querySelector('.transactions');
-const requestLoanbtn = document.querySelector('.form__btn--loan');
-const loanAmount = document.querySelector('.form__input--loan-amount');
-const donateBtn = document.querySelector('.form__btn--donate');
-const donateAmount = document.querySelector('.form__input--donate--amount');
-const donatePin = document.querySelector('.form__input--pin--donate');
-const accNumHTML = document.querySelector('.accountNumber');
+const lastUpdated = document.querySelector(".updateDate");
+const transActionsDate = document.querySelector(".transactions__date");
+const balanceValue = document.querySelector(".actualBalanceText");
+const balanceLabel = document.querySelector(".balance__label");
+const accNumSwitch = document.querySelector(".form__input--user--switch");
+const accPinSwitch = document.querySelector(".form__input--pin--switch");
+const nextSwitch = document.querySelector(".nextBtn");
+const prevSwitch = document.querySelector(".prevBtn");
+const btnClose = document.querySelector(".form__btn--close");
+const userClose = document.querySelector(".form__input--user--close");
+const userClosePin = document.querySelector(".form__input--pin--close");
+const transactionContainer = document.querySelector(".transactions");
+const requestLoanbtn = document.querySelector(".form__btn--loan");
+const loanAmount = document.querySelector(".form__input--loan-amount");
+const donateBtn = document.querySelector(".form__btn--donate");
+const donateAmount = document.querySelector(".form__input--donate--amount");
+const donatePin = document.querySelector(".form__input--pin--donate");
+const accNumHTML = document.querySelector(".accountNumber");
 const balanceDate = document.querySelector(`.dateText`);
-const totalBalance = document.querySelector('.totalBalance');
+const totalBalance = document.querySelector(".totalBalance");
 const now = new Date();
 
 //Used for formatting dates
 const options = {
-  hour: 'numeric',
-  minute: 'numeric',
-  day: 'numeric',
-  month: 'numeric',
-  year: 'numeric',
+  hour: "numeric",
+  minute: "numeric",
+  day: "numeric",
+  month: "numeric",
+  year: "numeric",
   // weekday: 'long',
 };
 
@@ -233,11 +256,11 @@ const options = {
 //login event listener (used to login to the app)
 
 if (mobileLoginButton) {
-  mobileLoginButton.addEventListener('click', function (event) {
+  mobileLoginButton.addEventListener("click", function (event) {
     event.preventDefault();
-    const mobileLoginPIN = document.querySelector('.mobile_login__input--pin');
+    const mobileLoginPIN = document.querySelector(".mobile_login__input--pin");
     const mobileLoginText = document.querySelector(
-      '.mobile_login__input--user'
+      ".mobile_login__input--user"
     );
     loginFunc(mobileLoginPIN, mobileLoginText, mobileLoginBox);
   });
@@ -250,9 +273,9 @@ const loginFunc = function (PIN, user, screen) {
     if (user.value === profiles[i].userName && pin === profiles[i].pin) {
       currentProfile = profiles[i];
     } else if (user.value === profiles[i].userName && pin !== profiles[i].pin) {
-      alert('incorrect PIN');
+      alert("incorrect PIN");
     } else if (user.value !== profiles[i].userName && pin === profiles[i].pin) {
-      alert('incorrect Username');
+      alert("incorrect Username");
     }
   }
 
@@ -273,15 +296,15 @@ const loginFunc = function (PIN, user, screen) {
     screen.close();
 
     mobileLoginBox.close();
-    mobileLoginBox.style.display = 'none';
+    mobileLoginBox.style.display = "none";
 
     // Display welcome message
 
     // Hide login form and display main app
-    const formDiv = document.querySelector('.formDiv');
-    const mainApp = document.querySelector('.mainApp');
+    const formDiv = document.querySelector(".formDiv");
+    const mainApp = document.querySelector(".mainApp");
 
-    mainApp.style.display = 'inline';
+    mainApp.style.display = "inline";
     mainApp.style.opacity = 100;
 
     currentAccount = currentProfile.checkingAccount;
@@ -306,24 +329,27 @@ const loginFunc = function (PIN, user, screen) {
       //Display saved transactions for current account
       displayTransactions(currentAccount);
     } else {
-      alert('No checking account found. Please contact customer service.');
+      alert("No checking account found. Please contact customer service.");
     }
   }
 };
 
 //Switch accounts
 let currentIndex = 0;
-nextSwitch.addEventListener('click', function () {
-  if (currentIndex === 0) {
-    currentIndex = currentIndex + 1;
-  } else if (currentIndex === 1) {
-    currentIndex = currentIndex - 1;
-  }
-  console.log(currentIndex);
-  accountSwitch(currentIndex);
-});
+if (nextSwitch) {
+  nextSwitch.addEventListener("click", function () {
+    if (currentIndex === 0) {
+      currentIndex = currentIndex + 1;
+    } else if (currentIndex === 1) {
+      currentIndex = currentIndex - 1;
+    }
+    console.log(currentIndex);
+    accountSwitch(currentIndex);
+  });
+}
+
 //requesting loans
-prevSwitch.addEventListener('click', function () {
+prevSwitch.addEventListener("click", function () {
   if (currentIndex === 0) {
     currentIndex = currentIndex + 1;
   } else if (currentIndex === 1) {
@@ -332,7 +358,14 @@ prevSwitch.addEventListener('click', function () {
   console.log(currentIndex);
   accountSwitch(currentIndex);
 });
-const accountSwitch = function (i) {
+const accountSwitch = async function (i) {
+  let switchProfiles = await getInfoProfiles();
+
+  switchProfiles.forEach((switchProfile) => {
+    if (switchProfile.memberName === currentProfile.memberName) {
+      currentProfile = switchProfile;
+    }
+  });
   const accountsList = [
     currentProfile.checkingAccount,
     currentProfile.savingsAccount,
@@ -343,13 +376,13 @@ const accountSwitch = function (i) {
 
 //checks if button exists
 if (requestLoanbtn) {
-  requestLoanbtn.addEventListener('click', function (e) {
+  requestLoanbtn.addEventListener("click", function (e) {
     //prevents default action
     e.preventDefault();
 
     loanPush();
 
-    loanAmount.value = '';
+    loanAmount.value = "";
 
     //Declares the amount as the user entered amount.
   });
@@ -357,18 +390,18 @@ if (requestLoanbtn) {
 
 //Donating money
 if (donateBtn) {
-  donateBtn.addEventListener('click', function (e) {
+  donateBtn.addEventListener("click", function (e) {
     e.preventDefault();
     //How much a user donates
 
-    if (currentAccount.accountType === 'Checking') {
+    if (currentAccount.accountType === "Checking") {
       donationPush();
-    } else if (currentAccount.accountType === 'Savings') {
+    } else if (currentAccount.accountType === "Savings") {
       donationPushSavings();
     }
 
-    donatePin.value = '';
-    donateAmount.value = '';
+    donatePin.value = "";
+    donateAmount.value = "";
   });
 }
 
@@ -381,9 +414,9 @@ const createUsername = function (prfs) {
   for (let i = 0; i < prfs.length; i++) {
     prfs[i].userName = prfs[i].memberName
       .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
+      .split(" ")
+      .map((name) => name[0])
+      .join("");
   }
 };
 createUsername(profiles);
@@ -398,8 +431,8 @@ const updateTime = function () {
 
 //Displays Currently Logged in profile's accounts sorted in order of checking first, then in order of most recently created.
 const displayAccounts = function (currentAccount) {
-  const accountContainer = document.querySelector('.accountContainer');
-  accountContainer.innerHTML = '';
+  const accountContainer = document.querySelector(".accountContainer");
+  accountContainer.innerHTML = "";
 
   //Shows no accounts if there are no accounts int the current profile
 
@@ -447,7 +480,7 @@ const displayAccounts = function (currentAccount) {
       `,
   ];
 
-  accountContainer.insertAdjacentHTML('beforeEnd', html1);
+  accountContainer.insertAdjacentHTML("beforeEnd", html1);
 };
 
 //Display Transactions
@@ -455,8 +488,8 @@ export const displayTransactions = function (currentAccount) {
   let movs;
 
   //selects the transactions HTML element
-  const transactionContainer = document.querySelector('.transactionsColumn');
-  transactionContainer.innerHTML = '';
+  const transactionContainer = document.querySelector(".transactionsColumn");
+  transactionContainer.innerHTML = "";
 
   //Variable set for the transactions themselves
 
@@ -485,62 +518,67 @@ export const displayTransactions = function (currentAccount) {
     let transName = mov.Name;
 
     let movIcon;
-
-    if (mov.Category === 'Transfer') {
+    if (mov.Category === "Money Deposit") {
+      movIcon = `<i class="fa-solid fa-dollar-sign transImg sndMon"></i>`;
+    }
+    if (mov.Category === "Transfer") {
       movIcon = `<i class="fa-solid fa-money-bill-transfer transImg"></i>`;
     }
 
-    if (mov.Category === 'car-note') {
+    if (mov.Category === "car-note") {
       movIcon = `<i class="fa-solid fa-car transImg"></i>`;
     }
-    if (mov.Category === 'rent') {
+    if (mov.Category === "rent") {
       movIcon = `<i class="fa-solid fa-house transImg"></i>`;
     }
-    if (mov.Category === 'car-insurance') {
+    if (mov.Category === "car-insurance") {
       movIcon = `<i class="fa-solid fa-car-burst transImg"></i>`;
     }
-    if (mov.Category === 'home-insurance') {
+    if (mov.Category === "home-insurance") {
       movIcon = `<i class="fa-solid fa-house-crack transImg"></i>`;
     }
-    if (mov.Category === 'food') {
+    if (mov.Category === "food") {
       movIcon = `<i class="fa-solid fa-utensils transImg"></i>`;
     }
-    if (mov.Category === 'electric') {
+    if (mov.Category === "electric") {
       movIcon = `<i class="fa-solid fa-bolt transImg"></i>`;
     }
 
-    if (mov.Category === 'gas') {
+    if (mov.Category === "gas") {
       movIcon = `<i class="fa-solid fa-fire-flame-simple transImg"></i>`;
     }
 
-    if (mov.Category === 'water') {
+    if (mov.Category === "water") {
       movIcon = `<i class="fa-solid fa-droplet transImg"></i>`;
     }
 
-    if (mov.Category === 'trash-collection') {
+    if (mov.Category === "trash-collection") {
       movIcon = `<i class="fa-solid fa-dumpster transImg"></i>`;
     }
 
-    if (mov.Category === 'phone-bill') {
+    if (mov.Category === "phone-bill") {
       movIcon = `<i class="fa-solid fa-phone transImg"></i>`;
     }
 
-    if (mov.Category === 'internet') {
+    if (mov.Category === "internet") {
       movIcon = `<i class="fa-solid fa-wifi transImg"></i>`;
     }
 
-    if (mov.Category === 'custom-expense') {
+    if (mov.Category === "custom-expense") {
       movIcon = `<i class="fa-solid fa-screwdriver-wrench transImg"></i>`;
     }
 
-    if (mov.Category === 'paycheck') {
+    if (mov.Category === "paycheck") {
       movIcon = `<i class="fa-solid fa-dollar-sign transImg dollarSignImg"></i>`;
+    }
+    if (mov.Category === "Check Deposit") {
+      movIcon = `<i class="fa-solid fa-money-check transImg"></i>`;
     }
     //HTML for transactions
     if (mov.amount < 0) {
-      transType = 'negTrans';
+      transType = "negTrans";
     } else if (mov.amount > 0) {
-      transType = 'posTrans';
+      transType = "posTrans";
     }
     const html = `<div class="transaction row">
                     <div class="transIcon col-4">
@@ -559,7 +597,7 @@ export const displayTransactions = function (currentAccount) {
                     </div>
                   </div>`;
     //Inserts HTML with required data
-    transactionContainer.insertAdjacentHTML('afterbegin', html);
+    transactionContainer.insertAdjacentHTML("afterbegin", html);
     displayBillList(currentAccount);
   });
 };
@@ -568,15 +606,15 @@ export const displayBillList = function (currentAccount) {
   let bills;
 
   //selects the transactions HTML element
-  const billListContainer = document.querySelector('.bills');
-  billListContainer.innerHTML = '';
+  const billListContainer = document.querySelector(".bills");
+  billListContainer.innerHTML = "";
 
   //Variable set for the transactions themselves
 
   bills = currentAccount.bills;
 
   //A loop that runs through each transaction in the current account object
-  if (currentAccount.accountType != 'Savings') {
+  if (currentAccount.accountType != "Savings") {
     bills.forEach(function (bill, i) {
       //ternerary to determine whether a transaction is a deposit or withdrawal
 
@@ -588,19 +626,19 @@ export const displayBillList = function (currentAccount) {
       //Sets up the date variable for the transactions
       currentDate = new Date();
 
-      if (bill.interval === 'weekly') {
+      if (bill.interval === "weekly") {
         advancedDate = currentDate.setUTCDate(currentDate.getUTCDate() + 7);
       }
 
-      if (bill.interval === 'bi-weekly') {
+      if (bill.interval === "bi-weekly") {
         advancedDate = currentDate.setUTCDate(currentDate.getUTCDate() + 14);
       }
 
-      if (bill.interval === 'monthly') {
+      if (bill.interval === "monthly") {
         advancedDate = currentDate.setUTCDate(currentDate.getUTCDate() + 30);
       }
 
-      if (bill.interval === 'yearly') {
+      if (bill.interval === "yearly") {
         advancedDate = currentDate.setUTCDate(currentDate.getUTCDate() + 365);
       }
 
@@ -621,50 +659,50 @@ export const displayBillList = function (currentAccount) {
 
       let billIcon;
 
-      if (bill.Category === 'car-note') {
+      if (bill.Category === "car-note") {
         billIcon = `<i class="fa-solid fa-car "></i>`;
       }
-      if (bill.Category === 'rent') {
+      if (bill.Category === "rent") {
         billIcon = `<i class="fa-solid fa-house "></i>`;
       }
-      if (bill.Category === 'car-insurance') {
+      if (bill.Category === "car-insurance") {
         billIcon = `<i class="fa-solid fa-car-burst "></i>`;
       }
-      if (bill.Category === 'home-insurance') {
+      if (bill.Category === "home-insurance") {
         billIcon = `<i class="fa-solid fa-house-crack "></i>`;
       }
-      if (bill.Category === 'food') {
+      if (bill.Category === "food") {
         billIcon = `<i class="fa-solid fa-utensils "></i>`;
       }
-      if (bill.Category === 'electric') {
+      if (bill.Category === "electric") {
         billIcon = `<i class="fa-solid fa-bolt "></i>`;
       }
 
-      if (bill.Category === 'gas') {
+      if (bill.Category === "gas") {
         billIcon = `<i class="fa-solid fa-fire-flame-simple "></i>`;
       }
 
-      if (bill.Category === 'water') {
+      if (bill.Category === "water") {
         billIcon = `<i class="fa-solid fa-droplet "></i>`;
       }
 
-      if (bill.Category === 'trash-collection') {
+      if (bill.Category === "trash-collection") {
         billIcon = `<i class="fa-solid fa-dumpster "></i>`;
       }
 
-      if (bill.Category === 'phone-bill') {
+      if (bill.Category === "phone-bill") {
         billIcon = `<i class="fa-solid fa-phone "></i>`;
       }
 
-      if (bill.Category === 'internet') {
+      if (bill.Category === "internet") {
         billIcon = `<i class="fa-solid fa-wifi wifiIcon "></i>`;
       }
 
-      if (bill.Category === 'custom-expense') {
+      if (bill.Category === "custom-expense") {
         billIcon = `<i class="fa-solid fa-screwdriver-wrench billListCustom "></i>`;
       }
 
-      if (bill.Category === 'paycheck') {
+      if (bill.Category === "paycheck") {
         billIcon = `<i class="fa-solid fa-dollar-sign  "></i>`;
       }
       //HTML for transactions
@@ -681,7 +719,7 @@ export const displayBillList = function (currentAccount) {
       </div>
     </div>`;
       //Inserts HTML with required data
-      billListContainer.insertAdjacentHTML('afterbegin', html);
+      billListContainer.insertAdjacentHTML("afterbegin", html);
     });
   }
 };
@@ -694,10 +732,10 @@ export const formatMovementDate = function (date, locale) {
 //formats currency based on user locale
 function formatCur(value, currency, locale) {
   //Sets currency based on locale currency code. (Defaults to USD if no locale can be found)
-  const currencyCode = currencyCodeMap[currency] || 'USD';
+  const currencyCode = currencyCodeMap[currency] || "USD";
   //Sets style and code, and formats the transaction
   return new Intl.NumberFormat(locale, {
-    style: 'currency',
+    style: "currency",
     currency: currencyCode,
   }).format(value);
 }
@@ -717,14 +755,14 @@ export const displayBalance = function (acc) {
 };
 
 export const cardShift = function (cards) {
-  const container = document.querySelector('.carousel-inner');
-  container.innerHTML = '';
+  const container = document.querySelector(".carousel-inner");
+  container.innerHTML = "";
   let accountList = [];
 
   let cardNum = 0;
 
   console.log(cards);
-  cards.forEach(card => {
+  cards.forEach((card) => {
     cardNum++;
     const html = [
       `<div class="carousel-item accountCard${cardNum} active">
@@ -751,11 +789,11 @@ export const cardShift = function (cards) {
   </div>`,
     ];
 
-    container.insertAdjacentHTML('beforeEnd', html);
+    container.insertAdjacentHTML("beforeEnd", html);
   });
 
-  const card2 = document.querySelector('.accountCard2');
-  card2.classList.remove('active');
+  const card2 = document.querySelector(".accountCard2");
+  card2.classList.remove("active");
 
   updateTime();
 };
