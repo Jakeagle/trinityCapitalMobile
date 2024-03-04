@@ -410,18 +410,7 @@ if (mainApp) {
   mainApp.style.opacity = 0;
 }
 
-const createUsername = function (prfs) {
-  for (let i = 0; i < prfs.length; i++) {
-    prfs[i].userName = prfs[i].memberName
-      .toLowerCase()
-      .split(" ")
-      .map((name) => name[0])
-      .join("");
-  }
-};
-createUsername(profiles);
 
-//createUsername(profiles);
 //updates current time
 const updateTime = function () {
   currentTime = new Date();
