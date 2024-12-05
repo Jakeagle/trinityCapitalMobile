@@ -88,7 +88,7 @@ mobileLoginBox.showModal();
 
 /***********************************************************Server Listeners**********************************************/
 
-export const socket = io("http://localhost:3000");
+export const socket = io("https://trinitycapitallive.azurewebsites.net");
 
 console.log("User connected:" + socket.id);
 socket.on("checkingAccountUpdate", (updatedChecking) => {
@@ -105,15 +105,15 @@ socket.on("accountsUpdate", (updatedCards) => {
 });
 
 /***********************************************************Server Functions**********************************************/
-const testServerProfiles = "https://trinitycapitaltestserver-2.azurewebsites.net/profiles";
+const testServerProfiles = "https://trinitycapitallive.azurewebsites.net/profiles";
 
-const loanURL = "https://trinitycapitaltestserver-2.azurewebsites.net/loans";
+const loanURL = "https://trinitycapitallive.azurewebsites.net/loans";
 
-const donationURL = "https://trinitycapitaltestserver-2.azurewebsites.net/donations";
+const donationURL = "https://trinitycapitallive.azurewebsites.net/donations";
 
-const donationSavingsURL = "https://trinitycapitaltestserver-2.azurewebsites.net/donationsSavings";
+const donationSavingsURL = "https://trinitycapitallive.azurewebsites.net/donationsSavings";
 
-const balanceURL = "https://trinitycapitaltestserver-2.azurewebsites.net/initialBalance";
+const balanceURL = "https://trinitycapitallive.azurewebsites.net/initialBalance";
 
 // Store the received profiles in a global variable or a state variable if you're using a front-end framework
 let Profiles = [];
