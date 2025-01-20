@@ -61,7 +61,6 @@ const incomeSpending = function (type, arr) {
 
   if (type === 'income') {
     incomeText.textContent = `+ ${finalAmount}`;
-    budgetText.textContent = `$${finalAmount}.000`;
   } else if (type === 'spending') {
     spendingText.textContent = `${finalAmount}`;
   }
